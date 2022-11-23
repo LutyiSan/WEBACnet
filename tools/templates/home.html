@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>LutyiTOOLS</title>
+		<meta charset="utf-8">
+		<link rel="icon" type="image/x-icon" href="{{ url_for('static', filename= 'favicon.svg') }}">
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'css/style.css') }}">
+
+	</head>
+	<body>
+		
+    <h1>Device Engineering Tool</h1>
+	<div class="form">
+		<form id="start-form">
+			<div>
+				<label>Протокол</label>
+				<select name="protocol">
+					<option value="modbus">ModbusTCP</option>
+					<option value="bacnet">BACnetIP</option>
+				</select>
+			</div>
+			<div>
+				<button id="protocol-submit" type="button">Отправить</button>
+				<button type="reset" >Сбросить</button>
+			</div>
+		</form>
+    </div>
+	<div class="form">
+	    <form id="bacnet-form" action="/protocol/bacnet/whois" method="get">
+				<label>Тип запроса</label>
+				<select name="action-type">
+					<option value="who-is">who-is</option>
+					<option value="object-list">get object list</option>
+					<option value="read-property">read property</option>
+				</select>
+
+			<div>
+				<button id="bacnet-submit" type="button">Отправить</button>
+				<button type="reset" >Сбросить</button>
+			</div>
+		</form>
+	</div>
+    <div class="form">
+	    <form id="bacnet-object-list">
+			<div>
+				<label>IP-адрес хоста</label>
+				<input type="text" name="host-ip" placeholder="Введите ip-адрес вашего хоста">
+			</div>
+			<div>
+				<label>IP-адрес девайса</label>
+				<input type="text" name="device-ip" placeholder="Введите ip адрес девайса">
+			</div>
+			<div>
+				<label>BAC Port</label>
+				<input type="number" name="port" placeholder="Введите номер порта(default=47808)">
+			</div>
+			<div>
+				<label>ID девайса</label>
+				<input type="number" name="instance" placeholder="Введите id девайса">
+			</div>
+
+			<div>
+				<button id="obj-list-submit" type="button">Отправить</button>
+				<button type="reset" >Сбросить</button>
+			</div>
+		</form>
+	</div>
+	    <div class="form">
+	    <form id="bacnet-whois">
+			<div>
+				<label>IP-адрес хоста</label>
+				<input type="text" name="host-ip" placeholder="Введите ip-адрес вашего хоста">
+			</div>
+			<div>
+				<label>BAC Port</label>
+				<input type="number" name="port" placeholder="Введите номер порта(default=47808)">
+			</div>
+			<div>
+				<button id="whois-submit" type="button">Отправить</button>
+				<button type="reset" >Сбросить</button>
+			</div>
+		</form>
+	</div>
+    <div class="form">
+	    <form id="bacnet-read">
+			<div>
+				<label>IP-адрес хоста</label>
+				<input type="text" name="host-ip" placeholder="Введите ip-адрес вашего хоста">
+			</div>
+			<div>
+				<label>IP-адрес девайса</label>
+				<input type="text" name="device-ip" placeholder="Введите ip адрес девайса">
+			</div>
+			<div>
+				<label>BAC Port</label>
+				<input type="number" name="port" placeholder="Введите номер порта(default=47808)">
+			</div>
+			<div>
+				<label>Тип объекта</label>
+				<select name="object-type">
+					<option value="analogInput">analog input</option>
+					<option value="analogOutput">analog output</option>
+					<option value="analogValue">analog value</option>
+					<option value="binaryInput">binary input</option>
+					<option value="binaryOutput">binary output</option>
+					<option value="binaryValue">binary value</option>
+					<option value="multiStateInput">multistate input</option>
+					<option value="multiStateOutput">multistate output</option>
+					<option value="multiStateValue">multistate value</option>
+				</select>
+			</div>
+			<div>
+				<label>ID-объекта</label>
+				<input type="number" name="instance" placeholder="Введите id объекта">
+			</div>
+			<div>
+				<button id="bacnet-read-submit" type="button">Отправить</button>
+				<button type="reset" >Сбросить</button>
+			</div>
+		</form>
+	</div>
+	<div class="form">
+	    <form id="modbus-read">
+			<div>
+				<label>IP-адрес девайса</label>
+				<input type="text" name="device-ip" placeholder="Введите ip адрес девайса">
+			</div>
+			<div>
+				<label>TCP порт</label>
+				<input type="number" name="port" placeholder="Введите номер tcp-порта(default=502) ">
+			</div>
+			<div>
+				<label>Тип регистра</label>
+				<select name="object-type">
+					<option value="hr">holding registers</option>
+					<option value="ir">input registers</option>
+					<option value="co">coils</option>
+					<option value="di">discrete inputs</option>
+				</select>
+			</div>
+			<div>
+				<label>Адрес регистра</label>
+				<input type="number" name="instance" placeholder="Введите id объекта">
+			</div>
+			<div>
+				<label>Кол-во регистров для чтения</label>
+				<input type="number" name="quantity" placeholder="Введите кол-во регистров">
+			</div>
+			<div>
+				<label>Тип переменной</label>
+				<select id="data-type" name="value-type">
+					<option value="binary16">binary</option>
+					<option value="uint16">uint16</option>
+					<option value="uint16r">uint16 inverse</option>
+					<option value="int16">int16</option>
+					<option value="int16r">int16 inverse</option>
+					<option value="float16">float16</option>
+					<option value="float16r">float16 inverse</option>
+					<option value="uint32">uint32</option>
+					<option value="uint32r">uint32 inverse</option>
+					<option value="int32">int32</option>
+					<option value="int32r">int32 inverse</option>
+					<option value="float32">float32</option>
+					<option value="float32r">float32 inverse</option>
+					<option value="uint64">uint64</option>
+					<option value="uint64r">uint64 inverse</option>
+					<option value="int64">int64</option>
+					<option value="int64r">int64 inverse</option>
+					<option value="float64">float64</option>
+					<option value="float64r">float64 inverse</option>
+				</select>
+			</div>
+			<div>
+				<button id="modbus-read-submit" type='button'>Отправить</button>
+				<button type="reset">Сбросить</button>
+			</div>
+		</form>
+	</div>
+	
+	<div id="response-data"></div>
+	<div>
+		<form>
+			<input name="myFile" type="file">
+			<button id="file-submit" type='button'>Отправить</button>
+		</form>
+	</div>
+	</body>
+	<script src="{{ url_for('static', filename= 'js/script.js') }}"></script>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>WEBACnet</title>
+		<meta charset="utf-8">
+		<link rel="icon" type="image/x-icon" href="{{ url_for('static', filename= 'favicon.svg') }}">
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'css/main.css') }}">
+	</head>
+	<body>
+	<h2>BACnet Tool</h2>
+	<div class="form">
+		<label>Choose interface</label>
+	    <form id="enter">
+			<div>
+				<label>IP-address</label>
+				<input class='text-field' type="text" name="host-ip" placeholder="input ip-address your host">
+			</div>
+			<div>
+				<label>BAC-port</label>
+				<input class='text-field' type="number" name="port" placeholder="Input BACnet port">
+			</div>
+			<div>
+				<button id="whois" type="button">Sent Who-Is</button>
+				<button type="reset">Reset</button>
+			</div>
+		</form>
+	</div>
+	<div id="wi-out"><p class="device">Reachable devices</p></div>
+    <div id="objectlist"><p class="object">Device objects</p></div>
+    <div id="objectprops"><p class="props">Objects  props</p></div>
+	<script src="{{ url_for('static', filename= 'js/main.js') }}"></script>
+	</body>
+</html>

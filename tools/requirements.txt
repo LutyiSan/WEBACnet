@@ -1,0 +1,6 @@
+BAC0~=21.12.3
+pytz
+colorama~=0.4.5
+pymodbus~=2.5.3
+loguru~=0.6.0
+Flask~=2.2.2
