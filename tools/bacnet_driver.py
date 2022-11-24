@@ -23,8 +23,6 @@ class BACnetClient:
             logger.exception("FAIL create bacnet-client", e)
             return False
 
-
-
     def get_object_list(self, ip, id) -> dict or False:
         print("IN BACNET")
         object_dict = {'type': [], 'id': []}

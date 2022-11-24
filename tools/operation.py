@@ -1,23 +1,6 @@
 from bacnet_driver import BACnetClient
 
 
-def bacnet_read(operate_dict):
-    operate_dict['port'] = int(operate_dict['port'])
-    operate_dict['obj_id'] = int(operate_dict['obj_id'])
-    client = BACnetClient()
-    if client.create(ip_address=operate_dict['host_ip'], port=operate_dict['port']):
-        result = client.read_single(operate_dict)
-        client.disconnect()
-        if result['present-value'] == [None] and result['status-flags'] == [None, None, None, None]:
-            return 'FAIL read property!, Maybe property is absent in device!'
-        if result:
-            return result
-        else:
-            return 'FAIL read property!, Maybe property is absent in device!'
-    else:
-        return 'FAIL read property!, Check host-ip and BACnet-Port!'
-
-
 def bacnet_obj_list(host_ip, port, device_ip, device_id):
     print("IN OPERATE")
     client = BACnetClient()
@@ -39,6 +22,7 @@ def bacnet_whois(operate_dict):
     else:
         return False
 
+
 def read_properties(*args):
     print('in oper prop')
     client = BACnetClient()
@@ -48,4 +32,3 @@ def read_properties(*args):
         return result
     else:
         return False
-
