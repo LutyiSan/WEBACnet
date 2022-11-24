@@ -22,14 +22,14 @@ def who_is():
 
 
 def make_wi_response(devices):
-    resp = '<ol>'
+    resp = '<div class="for-ol">'
     len_devices = len(devices['device-ip'])
     i = -1
     while i < (len_devices - 1):
         i += 1
-        resp += (f'<li class="device">ID: {devices["device-id"][i]} IP: {devices["device-ip"][i]} '
-                 f'NAME: {devices["device_name"][i]} VENDOR: {devices["vendor"][i]}</li>')
-    resp += '</ol>'
+        resp += (f'<p class="device">ID: {devices["device-id"][i]} IP: {devices["device-ip"][i]} '
+                 f'NAME: {devices["device_name"][i]} VENDOR: {devices["vendor"][i]}</p>')
+    resp += '</div>'
     return resp
 
 
@@ -47,13 +47,13 @@ def get_object_list():
 
 
 def make_obj_list_response(obj_list):
-    resp = '<ol>'
+    resp = '<div class="for-ol">'
     len_objects = len(obj_list['type'])
     i = -1
     while i < (len_objects - 1):
         i += 1
-        resp += f'<li class="object">{obj_list["type"][i]}   {obj_list["id"][i]}</li>'
-    resp += '</ol>'
+        resp += f'<p class="object">{obj_list["type"][i]} {obj_list["id"][i]}</p>'
+    resp += '</div>'
     return resp
 
 
@@ -66,7 +66,7 @@ def get_object_props():
     if result:
         response = ''
         res = str(result).split(',')
-        for i in res:
+        for i in result:
             response += f"<p>{i}</p>"
         return response
     else:

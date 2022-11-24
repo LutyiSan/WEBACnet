@@ -1,6 +1,6 @@
 from BAC0.scripts.Lite import Lite
 from loguru import logger
-from validator import validate_ip, validate_digit, validate_in_enum
+from validator import validate_ip, validate_digit
 
 
 class BACnetClient:
@@ -23,82 +23,7 @@ class BACnetClient:
             logger.exception("FAIL create bacnet-client", e)
             return False
 
-    def read_single(self, point: dict) -> dict or False:
-        if not isinstance(point, dict):
-            return False
-        result_dict = dict()
-        if not validate_ip(point['device_ip']):
-            self.bc_logger.error('IP-address incorrect!')
-            return False
-        if not validate_in_enum(self.object_types, point['obj_type']):
-            self.bc_logger.error('Object TYPE incorrect!')
-            return False
-        if not validate_digit(point['obj_id'], 0, 4194303):
-            self.bc_logger.error('Object ID incorrect!')
-            return False
-        try:
-            self.present_value = self.client.read(f"{point['device_ip']}/24 {point['obj_type']}"
-                                                  f" {point['obj_id']} presentValue")
-            if isinstance(self.present_value, (int, float, str)):
-                result_dict['present-value'] = [self.present_value]
-            else:
-                result_dict['present-value'] = [None]
-            self.status_flags = self.client.read(f"{point['device_ip']}/24 {point['obj_type']}"
-                                                 f" {point['obj_id']} statusFlags")
-            if isinstance(self.status_flags, list) and len(self.status_flags) == 4:
-                sf = BACnetClient.sign_sf(self.status_flags)
-                result_dict['status-flags'] = sf
-            else:
-                result_dict['status-flags'] = [None, None, None, None]
-            self.reliability = self.client.read(f"{point['device_ip']}/24"
-                                                f" {point['obj_type']}"
-                                                f" {point['obj_id']} reliability")
-            if isinstance(self.reliability, str) and len(self.reliability) > 0:
-                result_dict['reliability'] = [self.reliability]
-            else:
-                result_dict['reliability'] = [None]
-            return result_dict
-        except Exception as e:
-            result_dict['present-value'] = [None]
-            result_dict['status-flags'] = [None, None, None, None]
-            result_dict['reliability'] = [None]
-            self.bc_logger.exception('FAIL read object', e)
-            return result_dict
 
-    def read_multiple(self, device_ip: str, rpm: dict) -> dict or False:
-        result_dict = {'present-value': [], 'status-flags': []}  # TODO property reliability
-        if not validate_ip(device_ip):
-            self.bc_logger.error('IP-address incorrect!')
-            return False
-        if not isinstance(rpm, dict):
-            self.bc_logger.error('RPM-format  incorrect!')
-            return False
-        try:
-            read_result = self.client.readMultiple(f'{device_ip}/24', request_dict=rpm)
-            if len(read_result) == len(rpm['objects']):
-                for i in read_result:
-                    pv = read_result[i][0][1]
-                    sf = read_result[i][1][1]
-                    if pv == 'active':
-                        result_dict["present-value"].append(True)
-                    elif pv == 'inactive':
-                        result_dict["present-value"].append(False)
-                    else:
-                        result_dict["present-value"].append(pv)
-                    if sf is None:
-                        result_dict["status-flags"].append([None, None, None, None])
-                    else:
-                        signed_sf = BACnetClient.sign_sf(sf)
-                        result_dict["status-flags"].append(signed_sf)
-            else:
-                logger.error("FAIL MULTIPLE-READ")
-                for _ in rpm['object-id']:
-                    result_dict["present-value"].append(None)
-                    result_dict["status-flags"].append(None)
-                return result_dict
-        except Exception as e:
-            self.bc_logger.exception("FAIL MULTIPLE-READ", e)
-            return False
 
     def get_object_list(self, ip, id) -> dict or False:
         print("IN BACNET")
@@ -151,9 +76,6 @@ class BACnetClient:
         except Exception as e:
             print(e)
 
-
-
-
     def disconnect(self) -> None:
         self.client.disconnect()
 
@@ -204,4 +126,3 @@ class BACnetClient:
     rpm = BACnetClient.rpm_maker(points)
     cl.read_multiple('192.168.1.82', rpm)
 """
-

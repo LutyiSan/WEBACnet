@@ -10,78 +10,61 @@ font-family: verdana;
 h2{
     text-align: center;
 }
-.form{
-    margin-left: 20px;
-    width: 20%;
-    height: auto;
-    background-color: #253C43;
+
+p{
+    text-align: center;
 }
 
+
+p:hover{
+    background-color: black;
+}
 
 label{
-    margin-left: 5px;
+    text-align: center;
+    
 }
 
-input[type=text],input[type=number] {
+.main{
+    display: flex;
+    justify-content: space-around;
+    height: 600px;
+    
+}
+
+.main-left, .main-center, .main-right{
+    margin: 5px;
+	padding: 5px;
+	flex: 0 1 auto;
+    background-color: #253C43; 
+    min-width: 30%;
+    overflow-y: auto;
+}
+
+.form{
+    margin-left: 20px;
+    height: auto;
+}
+
+.in-form{
     margin: 10px;
-    padding:5px; 
-    border:2px solid #ccc; 
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
 }
 
-input[type=text]:focus {
-    border-color:#338888;
+input{
+    background-color: #b6daff;
+    
 }
+
+
+
 
 button{
-    margin: 10px;
-    padding:5px 15px; 
-    background:#ccc; 
-    border:0 none;
-    cursor:pointer;
-    -webkit-border-radius: 5px;
-    border-radius: 5px; 
+    border-radius: 5px;
+    background-color: #292929;
+    color: white;
 }
 
-#wi-out{
-    margin-left: 20px;
-    width: 20%;
-    min-height: 20%;
-    background-color: #253C43; 
-    cursor: pointer;
-    
-    
+button:hover{
+    background-color: blueviolet;
 }
-
-#objectlist{
-    width: 20%;
-    min-height: 20%;
-    background-color: #253C43; 
-    position: relative;
-    left: 40%;
-    top: -220px;
-    cursor: pointer;
-    
-    
-}
-
-
-#objectprops{
-    position: fixed;
-    top: 100px;
-    left: 70%;
-    
-    
-    
-    
-}
-
-
-
-
-
-
-
-
 

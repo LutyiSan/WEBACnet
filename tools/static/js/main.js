@@ -92,18 +92,6 @@ function objectSelect(){
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 select('#whois').addEventListener("click", function(){
     if (validateWhois() === true){
         port = select('#enter input[name="port"]').value
