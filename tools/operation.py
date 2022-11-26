@@ -32,3 +32,13 @@ def read_properties(*args):
         return result
     else:
         return False
+
+
+def read_property(*args):
+    client = BACnetClient()
+    if client.create(ip_address=args[0], port=args[1]):
+        result = client.read_single(args[2], args[3], args[4], args[5])
+        client.disconnect()
+        return result
+    else:
+        return False

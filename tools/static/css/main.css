@@ -24,6 +24,10 @@ p{
     background-color: black;
 }
 
+.property:hover{
+    background-color: black;
+}
+
 label{
     text-align: center;
     

@@ -84,9 +84,30 @@ function objectSelect(){
         http_get.onload  = function() {
         let dataArray = http_get.response;
         select('#objectprops').innerHTML = dataArray;
-        
+        propertySelect();
         };
     http_get.send();          
+    })
+    })
+}
+
+
+
+function propertySelect(){
+    selectAll('.property').forEach(item => {
+        item.addEventListener('click', event => {
+        print('PROPERTY to read');
+        let objectData = item.innerText;
+        let params = 'property?property='+objectData+'&host-ip='+hostIP+'&port='+port;
+        print(params);
+        http_get.open("GET", base_url+params);
+        http_get.responseType = 'text';
+        http_get.onload  = function() {
+        let dataArray = http_get.response;
+        print(dataArray);
+        select('#objectprops').innerHTML = dataArray;
+        };
+    http_get.send();
     })
     })
 }

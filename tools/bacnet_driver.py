@@ -1,3 +1,4 @@
+import BAC0
 from BAC0.scripts.Lite import Lite
 from loguru import logger
 from validator import validate_ip, validate_digit
@@ -65,6 +66,19 @@ class BACnetClient:
             self.bc_logger.exception("NO RESPONSE WHO-IS", e)
             return False
 
+    def read_single(self, ip, type, id, property):
+        try:
+            prop = self.client.read(f'{ip}/24 {type} {id} {property}')
+            if prop:
+                return prop
+            else:
+                return 'none'
+        except Exception as e:
+            print(e)
+            return 'none'
+
+
+
     def read_all_props(self, ip, type, id):
         print("in bacnet prop")
         try:
@@ -124,3 +138,5 @@ class BACnetClient:
     rpm = BACnetClient.rpm_maker(points)
     cl.read_multiple('192.168.1.82', rpm)
 """
+
+

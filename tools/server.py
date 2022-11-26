@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from route_func import who_is, get_object_list, get_object_props
+from route_func import who_is, get_object_list, get_object_props, read_select_properties
 
 app = Flask(__name__)
 
@@ -24,5 +24,9 @@ def object_props():
     print('IN route props')
     return get_object_props()
 
+@app.route('/property')
+def read_props():
+    print('IN route props')
+    return read_select_properties()
 
 app.run(host='127.0.0.1', port=90, debug=True)
