@@ -16,7 +16,11 @@ p{
 }
 
 
-p:hover{
+.object:hover{
+    background-color: black;
+}
+
+.device:hover{
     background-color: black;
 }
 

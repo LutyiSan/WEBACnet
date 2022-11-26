@@ -3,7 +3,7 @@
 	<head>
 		<title>WEBACnet</title>
 		<meta charset="utf-8">
-		<link rel="icon" type="image/x-icon" href="{{ url_for('static', filename= 'favicon.svg') }}">
+		<link rel="icon" type="image/x-icon" href="{{ url_for('static', filename= 'icons/favicon.svg') }}">
 		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'css/main.css') }}">
 	</head>
 	<body>
@@ -29,7 +29,7 @@
 		      </form>
 	       </div>
             <div>
-                <p>Reachable devices</p>
+               <p><img src="{{ url_for('static', filename= 'icons/device-icon.svg') }}"> Reachable devices</p>
 	       <div id="wi-out">
                 
                 <p class="device"></p>
