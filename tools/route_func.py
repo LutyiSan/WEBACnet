@@ -2,9 +2,9 @@ from flask import request
 from operation import bacnet_whois, bacnet_obj_list, read_properties, read_property
 from obj_props import obj_dict
 
-curr_device = {'ip': str, 'id': int}
-bac_socket = {'ip': str, 'port': int}
-curr_object = {'type': str, 'id': int, 'property': str}
+curr_device = dict()
+bac_socket = dict()
+curr_object = dict()
 
 
 def who_is():
@@ -20,10 +20,9 @@ def who_is():
 
 
 def make_wi_response(devices):
-    resp = '<div class="for-ol">'
-    len_devices = len(devices['device-ip'])
+    resp = '<div>'
     i = -1
-    while i < (len_devices - 1):
+    while i < (len(devices['device-ip']) - 1):
         i += 1
         image = 'static/icons/device-icon.svg'
         resp += f"<p class='device'><img src='{image}'> ID: {devices['device-id'][i]} IP: {devices['device-ip'][i]}" \
@@ -40,7 +39,7 @@ def get_object_list():
     if result:
         return make_obj_list_response(result)
     else:
-        return '<p>Something Wrong></p>'
+        return '<p>No answer from device></p>'
 
 
 def make_obj_list_response(obj_list):
@@ -90,8 +89,6 @@ def property_form():
 
 def read_select_properties():
     curr_object['property'] = request.args.get("property")
-    print(bac_socket['ip'], bac_socket['port'], curr_device['ip'], curr_object['type'],
-                           curr_object['id'], curr_object['property'])
     result = read_property(bac_socket['ip'], bac_socket['port'], curr_device['ip'], curr_object['type'],
                            curr_object['id'], curr_object['property'])
-    return f"<p>{curr_object['property']}: {result}</p>"
+    return f"<p>Property PV</p><p>{curr_object['property']}: {result}</p>"

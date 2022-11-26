@@ -105,7 +105,7 @@ function propertySelect(){
         http_get.onload  = function() {
         let dataArray = http_get.response;
         print(dataArray);
-        select('#objectprops').innerHTML = dataArray;
+        select('#props').innerHTML = dataArray;
         };
     http_get.send();
     })

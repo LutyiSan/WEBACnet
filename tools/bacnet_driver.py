@@ -5,40 +5,26 @@ from validator import validate_ip, validate_digit
 
 
 class BACnetClient:
-    bc_logger = logger
-    object_types = ['analogInput', 'analogOutput', 'analogValue', 'binaryInput', 'binaryOutput', 'binaryValue',
-                    'multiStateInput', 'multiStateOutput', 'multiStateValue']
 
     def create(self, ip_address: str, port: int) -> False:
-        if not validate_ip(ip_address):
-            self.bc_logger.error('IP-address incorrect!')
-            return False
-        if not validate_digit(port, 1, 65535):
-            self.bc_logger.error('Port number incorrect!')
-            return False
         try:
             self.client = Lite(ip=ip_address, port=port)
-            logger.debug("READY create bacnet-client")
+            print("READY create bacnet-client")
             return True
         except Exception as e:
-            logger.exception("FAIL create bacnet-client", e)
-            return False
+            print("FAIL create bacnet-client", e)
 
     def get_object_list(self, ip, id) -> dict or False:
-        print("IN BACNET")
         object_dict = {'type': [], 'id': []}
         try:
-            object_list = self.client.read(
-                f"{ip}/24 device {id} objectList")
+            object_list = self.client.read(f"{ip}/24 device {id} objectList")
             if len(object_list) > 0:
                 for obj in object_list:
                     object_dict['type'].append(obj[0])
                     object_dict['id'].append(obj[1])
-            print(object_dict)
             return object_dict
         except Exception as e:
-            self.bc_logger.exception('Fail read object-list!', e)
-            return False
+            print('Fail read object-list!', e)
 
     def who_is(self) -> dict or False:
         i_am_dict = {'device-ip': [], 'device-id': [], 'device_name': [], 'vendor': []}
@@ -63,21 +49,21 @@ class BACnetClient:
             else:
                 return False
         except Exception as e:
-            self.bc_logger.exception("NO RESPONSE WHO-IS", e)
-            return False
+            print("NO RESPONSE WHO-IS", e)
 
     def read_single(self, ip, type, id, property):
+        print('PROPERTY to read', property)
         try:
             prop = self.client.read(f'{ip}/24 {type} {id} {property}')
             if prop:
-                return prop
+                if property == 'statusFlags':
+                    return sign_sf(prop)
+                else:
+                    return prop
             else:
                 return 'none'
         except Exception as e:
             print(e)
-            return 'none'
-
-
 
     def read_all_props(self, ip, type, id):
         print("in bacnet prop")
@@ -107,22 +93,24 @@ class BACnetClient:
         rpm['objects'] = read_objects
         return rpm
 
-    @staticmethod
-    def sign_sf(sf: any) -> list:
-        if not isinstance(sf, list):
-            return [None, None, None, None]
-        if sf is not None and len(sf) == 4:
-            if sf[0] and sf[0]:
-                sf[0] = 'in-alarm'
-            if sf[1] and sf[1]:
-                sf[1] = 'fault'
-            if sf[2] and sf[2]:
-                sf[2] = 'overridden'
-            if sf[3] and sf[3]:
-                sf[3] = 'out-of-service'
-            return sf
-        else:
-            return [None, None, None, None]
+
+def sign_sf(sf: any) -> list:
+    print(sf)
+    if not isinstance(sf, list):
+        return [None, None, None, None]
+    if sf is not None and len(sf) == 4:
+        if sf[0] == 1:
+            sf[0] = 'in-alarm'
+        if sf[1] == 1:
+            sf[1] = 'fault'
+        if sf[2] == 1:
+            sf[2] = 'overridden'
+        if sf[3] == 1:
+            sf[3] = 'out-of-service'
+        print(sf)
+        return sf
+    else:
+        return [None, None, None, None]
 
 
 """
@@ -138,5 +126,3 @@ class BACnetClient:
     rpm = BACnetClient.rpm_maker(points)
     cl.read_multiple('192.168.1.82', rpm)
 """
-
-

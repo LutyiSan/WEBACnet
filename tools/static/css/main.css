@@ -36,16 +36,16 @@ label{
 .main{
     display: flex;
     justify-content: space-around;
-    height: 600px;
+    height: 800px;
     
 }
 
-.main-left, .main-center, .main-right{
+.main-left, .main-center, .main-right, #props{
     margin: 5px;
 	padding: 5px;
 	flex: 0 1 auto;
     background-color: #253C43; 
-    min-width: 30%;
+    min-width: 20%;
     overflow-y: auto;
 }
 
