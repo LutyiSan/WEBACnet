@@ -27,9 +27,3 @@ def validate_digit(value: any, min_value: int, max_value: int) -> bool:
         return False
 
 
-def validate_in_enum(enum: list[any], input_data: any) -> bool:
-    if isinstance(enum, list) and input_data is not None:
-        if input_data in enum:
-            return True
-        else:
-            return False
