@@ -40,16 +40,11 @@ def get_object_list():
 
 
 def make_obj_list_response(obj_list):
+    image = 'static/icons/value_obj.svg'
     response = '<div>'
     i = -1
     while i < (len(obj_list['type']) - 1):
         i += 1
-        if "Input" in obj_list["type"][i]:
-            image = 'static/icons/in_obj.svg'
-        elif "Output" in obj_list["type"][i]:
-            image = 'static/icons/out_obj.svg'
-        else:
-            image = 'static/icons/value_obj.svg'
         response += f'<p class="object"><img src="{image}"> {obj_list["type"][i]} {obj_list["id"][i]}</p>'
     response += '</div>'
     return response
