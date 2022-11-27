@@ -8,10 +8,8 @@ curr_object = dict()
 
 
 def who_is():
-    ipaddress = request.args.get("host-ip")
-    port = request.args.get("port")
-    bac_socket['ip'] = ipaddress
-    bac_socket['port'] = port
+    bac_socket['ip'] = request.args.get("host-ip")
+    bac_socket['port'] = request.args.get("port")
     result = bacnet_whois(bac_socket)
     if isinstance(result, dict):
         return make_wi_response(result)
@@ -20,15 +18,14 @@ def who_is():
 
 
 def make_wi_response(devices):
-    resp = '<div>'
+    response = '<div>'
     i = -1
     while i < (len(devices['device-ip']) - 1):
         i += 1
         image = 'static/icons/device-icon.svg'
-        resp += f"<p class='device'><img src='{image}'> ID: {devices['device-id'][i]} IP: {devices['device-ip'][i]}" \
-                f" NAME: {devices['device_name'][i]} VENDOR: {devices['vendor'][i]}</p>"
-    resp += '</div>'
-    return resp
+        response += f"<p class='device' onclick='colorElement()'><img src='{image}'> ID: {devices['device-id'][i]} IP: {devices['device-ip'][i]}" \
+                    f" NAME: {devices['device_name'][i]} VENDOR: {devices['vendor'][i]}</p></div>"
+    return response
 
 
 def get_object_list():
@@ -43,10 +40,9 @@ def get_object_list():
 
 
 def make_obj_list_response(obj_list):
-    resp = '<div class="for-ol">'
-    len_objects = len(obj_list['type'])
+    response = '<div>'
     i = -1
-    while i < (len_objects - 1):
+    while i < (len(obj_list['type']) - 1):
         i += 1
         if "Input" in obj_list["type"][i]:
             image = 'static/icons/in_obj.svg'
@@ -54,15 +50,15 @@ def make_obj_list_response(obj_list):
             image = 'static/icons/out_obj.svg'
         else:
             image = 'static/icons/value_obj.svg'
-        resp += f'<p class="object"><img src="{image}"> {obj_list["type"][i]} {obj_list["id"][i]}</p>'
-    resp += '</div>'
-    return resp
+        response += f'<p class="object"><img src="{image}"> {obj_list["type"][i]} {obj_list["id"][i]}</p>'
+    response += '</div>'
+    return response
 
 
 def get_object_props():
     params = request.args.get("object").split(' ')
     curr_object['type'] = params[1]
-    curr_object['id'] = params[2]
+    curr_object['id'] = int(params[2])
     if curr_object['type'] not in obj_dict.keys():
         result = read_properties(bac_socket['ip'], bac_socket['port'], curr_device['ip'], curr_object['type'],
                                  curr_object['id'])
@@ -79,16 +75,18 @@ def get_object_props():
 
 def property_form():
     image = 'static/icons/property-icon.svg'
-    response_head = '<div class="form"><p>Choose property</p>'
+    response = '<div class="form"><p>Choose property</p>'
     properties = obj_dict[curr_object['type']]
     for i in properties:
-        response_head += f"<p class='property' value='{i}'><img src='{image}'> {i}</p>"
-    response_head += "</div> "
-    return response_head
+        response += f"<p class='property' value='{i}'><img src='{image}'> {i}</p></div>"
+    return response
 
 
 def read_select_properties():
     curr_object['property'] = request.args.get("property")
     result = read_property(bac_socket['ip'], bac_socket['port'], curr_device['ip'], curr_object['type'],
                            curr_object['id'], curr_object['property'])
-    return f"<p>Property PV</p><p>{curr_object['property']}: {result}</p>"
+    if result:
+        return f"<p>{curr_object['property']}: {result}</p>"
+    else:
+        return f"<p>{curr_object['property']}: Unknown Property</p>"

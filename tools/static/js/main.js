@@ -29,6 +29,7 @@ function validateWhois(){
     port = select('#enter input[name="port"]').value
     if (port === ''){
         port = 47808
+        select('#enter input[name="port"]').value = port
     }
     if (validateIP(hostIP) === true){
         select('#enter select[name="action-type"]').style.color = ("#00ff00");
@@ -47,20 +48,32 @@ function validateWhois(){
     }
 }
 
+function colorObject(elements){
+    selectAll(elements).forEach(elem =>{
+        elem.style.color = ('#b6daff');  
+    })
+}
+
+
+
+
+
+
+
 function deviceSelect(){
     selectAll('.device').forEach(item => {
         item.addEventListener('click', event => {
+        print(item);
+        colorObject('.device');
         let deviceData = item.innerText;
-        
-        if (port === ''){
-            port = 47808
-       }
         let params = 'objectlist?device='+deviceData+'&host-ip='+hostIP+'&port='+port;
         print(params);
+        item.style.color = ('#00ff00');
         http_get.open("GET", base_url+params);
         http_get.responseType = 'text';
         http_get.onload  = function() {
         let dataArray = http_get.response;
+        
         select('#objectlist').innerHTML = dataArray;
         objectSelect();
         };
@@ -72,17 +85,16 @@ function deviceSelect(){
 function objectSelect(){
     selectAll('.object').forEach(item => {
         item.addEventListener('click', event => {
+        colorObject('.object');
         let objectData = item.innerText;
-        
-        if (port === ''){
-            port = 47808
-       }
         let params = 'object?object='+objectData+'&host-ip='+hostIP+'&port='+port;
         print(params);
+        item.style.color = ('#00ff00');
         http_get.open("GET", base_url+params);
         http_get.responseType = 'text';
         http_get.onload  = function() {
         let dataArray = http_get.response;
+        
         select('#objectprops').innerHTML = dataArray;
         propertySelect();
         };
@@ -96,15 +108,18 @@ function objectSelect(){
 function propertySelect(){
     selectAll('.property').forEach(item => {
         item.addEventListener('click', event => {
+            colorObject('.property');
         print('PROPERTY to read');
         let objectData = item.innerText;
         let params = 'property?property='+objectData+'&host-ip='+hostIP+'&port='+port;
         print(params);
+        item.style.color = ('#00ff00');
         http_get.open("GET", base_url+params);
         http_get.responseType = 'text';
         http_get.onload  = function() {
         let dataArray = http_get.response;
         print(dataArray);
+        
         select('#props').innerHTML = dataArray;
         };
     http_get.send();
@@ -115,10 +130,6 @@ function propertySelect(){
 
 select('#whois').addEventListener("click", function(){
     if (validateWhois() === true){
-        port = select('#enter input[name="port"]').value
-        if (port === ''){
-            port = 47808
-       }
         let params = 'whois?host-ip='+select('#enter select[name="action-type"]').value+'&port='+port;
         print(params+' port: '+port);
         http_get.open("GET", base_url+params);

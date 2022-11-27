@@ -1,0 +1,4 @@
+loguru~=0.6.0
+Flask~=2.2.2
+netifaces~=0.11.0
+BAC0~=22.9.21

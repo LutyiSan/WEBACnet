@@ -36,11 +36,11 @@ label{
 .main{
     display: flex;
     justify-content: space-around;
-    height: 800px;
+    height: 700px;
     
 }
 
-.main-left, .main-center, .main-right, #props{
+.main-left, .main-center, .main-right, .main-right-right{
     margin: 5px;
 	padding: 5px;
 	flex: 0 1 auto;
@@ -59,8 +59,8 @@ label{
 }
 
 input, select, option{
-    background-color: #000000;
-    color: #ffffff;
+    background-color: #292929;
+    color: #b6daff;
     
 }
 
@@ -70,7 +70,7 @@ input, select, option{
 button{
     border-radius: 5px;
     background-color: #292929;
-    color: white;
+    color: #b6daff;
 }
 
 button:hover{
