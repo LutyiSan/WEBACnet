@@ -58,8 +58,9 @@ label{
     margin: 10px;
 }
 
-input{
-    background-color: #b6daff;
+input, select, option{
+    background-color: #000000;
+    color: #ffffff;
     
 }
 

@@ -25,13 +25,13 @@ function validateDigitInRange(digit, min, max){
 }
 
 function validateWhois(){
-    hostIP = select('#enter input[name="host-ip"]').value
+    hostIP = select('#enter select[name="action-type"]').value
     port = select('#enter input[name="port"]').value
     if (port === ''){
         port = 47808
     }
     if (validateIP(hostIP) === true){
-        select('#enter input[name="host-ip"]').style.color = ("#00ff00");
+        select('#enter select[name="action-type"]').style.color = ("#00ff00");
             if (validateDigitInRange(port,1,65535) === true){
                 select('#enter input[name="port"]').style.color = ("#00ff00");
                 return true
@@ -41,8 +41,8 @@ function validateWhois(){
                 return false
             }
     }else{
-        select('#enter input[name="host-ip"]').value = ("invalid HOST-IP address!");
-        select('#enter input[name="host-ip"]').style.color = ("#ff0000");
+        select('#enter select[name="action-type"]').value = ("invalid HOST-IP address!");
+        select('#enter select[name="action-type"]').style.color = ("#ff0000");
         return false
     }
 }
@@ -119,7 +119,7 @@ select('#whois').addEventListener("click", function(){
         if (port === ''){
             port = 47808
        }
-        let params = 'whois?host-ip='+select('#enter input[name="host-ip"]').value+'&port='+port;
+        let params = 'whois?host-ip='+select('#enter select[name="action-type"]').value+'&port='+port;
         print(params+' port: '+port);
         http_get.open("GET", base_url+params);
         http_get.responseType = 'text';

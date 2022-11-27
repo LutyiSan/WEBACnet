@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>WEBACnet</title>
+		<meta charset="utf-8">
+		<link rel="icon" type="image/x-icon" href="{{ url_for('static', filename= 'icons/favicon.svg') }}">
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static',  filename= 'css/main.css') }}">
+	</head>
+	<body>
+	<h2>BACnet Tool</h2>
+    <div class='main'>
+        <div class='main-left'>
+	       <div class="form">
+		       <p>Choose interface</p>
+	           <form id="enter">
+                   <div class='in-form'>
+				    <label>IP-address</label>
+                   
+                    <select name="action-type">
+					{% for i in interface %}
+                        <option value="{{ i }}">{{ i }}</option>
+                        {% endfor %}
+				    </select>
+                   </div>
+                   <div class='in-form'>
+				    <label>UDP-port</label>
+				    <input class='text-field' type="number" name="port" placeholder="Input BACnet port">
+                   </div>
+                   <div class='in-form'>
+				    <button id="whois" type="button">Sent Who-Is</button>
+				    <button type="reset">Reset</button>
+                   </div>
+		      </form>
+	       </div>
+            <div>
+               <p><img src="{{ url_for('static', filename= 'icons/device-icon.svg') }}"> Reachable devices</p>
+	       <div id="wi-out">
+                
+                <p class="device"></p>
+            </div>
+            </div>
+        </div>
+        <div class='main-center'>
+            <p>Device objects</p>
+        <div id="objectlist">
+            
+            <p class="object"></p>
+        </div>
+        </div>
+        <div class='main-right'>
+        <div id="objectprops">
+            
+            <p class="props"></p>
+        </div>
+        </div>
+            <div id="props">
+
+            <p class="propsValue"></p>
+        </div>
+    </div>
+
+	<script src="{{ url_for('static', filename= 'js/main.js') }}"></script>
+	</body>
+</html>
