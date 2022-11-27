@@ -1,6 +1,6 @@
 from flask import request
 from operation import bacnet_whois, bacnet_obj_list, read_properties, read_property
-from tools.obj_props import obj_dict
+from obj_props import obj_dict
 
 curr_device = dict()
 bac_socket = dict()
