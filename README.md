@@ -1,5 +1,6 @@
 # WEBACnet
   This programm implemented BACnet browsing in your browser
+  Tested in Windows-10 and Debian-11
 # Instalation
   1. cd /opt
   2. git clone https://github.com/LutyiSan/WEBACnet
@@ -13,6 +14,12 @@
   2. Var.2 - sudo sh /opt/WEBACnet/run.sh
 # Usage
   Open your browser {host}:{port} and enjoy simply usage)
+# Dependences
+  1. python-3.8 and later
+  2. python-lib [loguru~=0.6.0,
+                  Flask~=2.2.2,
+                  netifaces~=0.11.0,
+                    BAC0~=22.9.21]
 
 
   
